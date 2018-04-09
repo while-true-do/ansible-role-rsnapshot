@@ -44,6 +44,6 @@
 - name: enable service httpd and ensure it is not masked
   systemd:
     name: "rsnapshot-{{ item.name }}.timer"
-    enabled: yes 
+    enabled: yes
   with_items:
     - "{{ wtd_rsnapshot_config_retains }}"

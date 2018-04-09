@@ -32,8 +32,6 @@ wtd_rsnapshot_config_lockfile: "/var/run/rsnapshot.pid"
 wtd_rsnapshot_config_backups:
   - backup: /home/
     target: localhost/
-  - backup: /etc/
-    target: localhost/
 
 wtd_rsnapshot_timer_time: 00:30
 wtd_rsnapshot_service_execStart: /usr/bin/rsnapshot %I
