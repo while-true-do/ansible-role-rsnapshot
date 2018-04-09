@@ -1,0 +1,11 @@
+[Unit]
+Description=rsnapshot "{{ item }}"  backup
+
+[Timer]
+# 14:30 is the clock time when to start it
+OnCalendar={{ wtd_rsnapshot_timer_time }}
+Persistent=true
+Unit=rsnapshot@{{ item }}.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,49 @@
+---
+# tasks/main.yml for rsnapshot
+- name: set rsnapshot to state "{{ wtd_rsnapshot_state }}"
+  package:
+    name: "{{ wtd_rsnapshot_packages }}"
+    state: "{{ wtd_rsnapshot_state }}"
+
+- name: set configuration for rsnapshot
+  template:
+    src: rsnapshot.conf.j2
+    dest: /etc/rsnapshot.conf
+    mode: 0644
+    owner: root
+    group: root
+    validate: "rsnapshot -c %s configtest"
+  when: wtd_rsnapshot_state == "present"
+
+- name: "copy template"
+  delegate_to: 127.0.0.1
+  copy:
+    src: "{{ role_path }}/templates/rsnapshot.timer.j2"
+    dest: "{{ role_path }}/templates/rsnapshot-{{ item.name }}.timer.j2"
+  with_items:
+    - "{{ wtd_rsnapshot_config_retains }}"
+
+- name: "Set Timer for Backup"
+  template:
+    src: "rsnapshot-{{ item.name}}.timer.j2"
+    dest: "/etc/systemd/system/rsnapshot-{{ item.name }}.timer"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "{{ wtd_rsnapshot_config_retains }}"
+
+- name: "Set Service for Backup"
+  template:
+    src: "rsnapshot@.service.j2"
+    dest: "/etc/systemd/system/rsnapshot@.service"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: enable service httpd and ensure it is not masked
+  systemd:
+    name: "rsnapshot-{{ item.name }}.timer"
+    enabled: yes 
+  with_items:
+    - "{{ wtd_rsnapshot_config_retains }}"

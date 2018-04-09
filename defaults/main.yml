@@ -1,0 +1,39 @@
+---
+# defaults/main.yml for rsnapshot
+
+# You can set the state to ["present"|"absent"|"latest"]
+wtd_rsnapshot_state: "present"
+wtd_rsnapshot_packages: "rsnapshot"
+
+wtd_rsnapshot_config_version: 1.2
+
+wtd_rsnapshot_config_snapshot_root: "/.snapshots/"
+
+wtd_rsnapshot_config_cmd_rm: "/usr/bin/rm"
+wtd_rsnapshot_config_cmd_rsync: "/usr/bin/rsync"
+wtd_rsnapshot_config_cmd_logger: "/usr/bin/logger"
+
+wtd_rsnapshot_config_retains:
+  - name: "alpha"
+    value: "6"
+  - name: "beta"
+    value: "7"
+  - name: "gamma"
+    value: "4"
+  - name: "delta"
+    value: "3"
+
+wtd_rsnapshot_config_verbose: 3
+wtd_rsnapshot_config_loglevel: 3
+wtd_rsnapshot_config_logfile: "/var/log/rsnapshot"
+
+wtd_rsnapshot_config_lockfile: "/var/run/rsnapshot.pid"
+
+wtd_rsnapshot_config_backups:
+  - backup: /home/
+    target: localhost/
+  - backup: /etc/
+    target: localhost/
+
+wtd_rsnapshot_timer_time: 00:30
+wtd_rsnapshot_service_execStart: /usr/bin/rsnapshot %I
