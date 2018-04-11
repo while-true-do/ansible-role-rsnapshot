@@ -16,12 +16,20 @@ wtd_rsnapshot_config_cmd_logger: "/usr/bin/logger"
 wtd_rsnapshot_config_retains:
   - name: "alpha"
     value: "6"
+    # 6 alpha backups a day (once every 4 hours, at 0,4,8,12,16,20)
+    time: '00/4:00'
   - name: "beta"
     value: "7"
+    # 1 beta backup every day, at 11:50PM
+    time: '23:50'
   - name: "gamma"
     value: "4"
+    # 1 gamma backup every week, at 11:40PM, on Saturdays (6th day of week)
+    time: 'Sat *-*-* 23:40'
   - name: "delta"
     value: "3"
+    # 1 delta backup every month, at 11:30PM on the 1st day of the month
+    time: '*-*-01 23:30'
 
 wtd_rsnapshot_config_verbose: 3
 wtd_rsnapshot_config_loglevel: 3
@@ -33,5 +41,5 @@ wtd_rsnapshot_config_backups:
   - backup: /home/
     target: localhost/
 
-wtd_rsnapshot_timer_time: 00:30
+wtd_rsnapshot_timer_time: '00:30'
 wtd_rsnapshot_service_execStart: /usr/bin/rsnapshot %I

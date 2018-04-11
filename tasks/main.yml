@@ -23,7 +23,7 @@
   with_items:
     - "{{ wtd_rsnapshot_config_retains }}"
 
-- name: "Set Timer for Backup"
+- name: "Create Timer for Backup"
   template:
     src: "rsnapshot-{{ item.name}}.timer.j2"
     dest: "/etc/systemd/system/rsnapshot-{{ item.name }}.timer"
@@ -33,7 +33,7 @@
   with_items:
     - "{{ wtd_rsnapshot_config_retains }}"
 
-- name: "Set Service for Backup"
+- name: "Create Service for Backup"
   template:
     src: "rsnapshot@.service.j2"
     dest: "/etc/systemd/system/rsnapshot@.service"
@@ -41,9 +41,10 @@
     group: root
     mode: 0644
 
-- name: enable service httpd and ensure it is not masked
+- name: enable and start service rsnapshot timer
   systemd:
     name: "rsnapshot-{{ item.name }}.timer"
+    state: started
     enabled: yes
   with_items:
     - "{{ wtd_rsnapshot_config_retains }}"

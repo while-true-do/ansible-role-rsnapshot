@@ -2,7 +2,7 @@
 Description=rsnapshot (%I) backup
 
 [Service]
-Type=oneshot
+Type=forking
 Nice=19
 IOSchedulingClass=idle
-ExecStart={{ wtd_rsnapshot_service_executeStart }}
+ExecStart={{ wtd_rsnapshot_service_execStart }}
