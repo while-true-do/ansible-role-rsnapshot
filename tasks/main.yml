@@ -22,6 +22,7 @@
     dest: "{{ role_path }}/templates/rsnapshot-{{ item.name }}.timer.j2"
   with_items:
     - "{{ wtd_rsnapshot_config_retains }}"
+  when: wtd_rsnapshot_state == "present"
 
 - name: "Create Timer for Backup"
   template:
@@ -32,6 +33,7 @@
     mode: 0644
   with_items:
     - "{{ wtd_rsnapshot_config_retains }}"
+  when: wtd_rsnapshot_state == "present"
 
 - name: "Create Service for Backup"
   template:
@@ -40,6 +42,7 @@
     owner: root
     group: root
     mode: 0644
+  when: wtd_rsnapshot_state == "present"
 
 - name: enable and start service rsnapshot timer
   systemd:
@@ -48,3 +51,4 @@
     enabled: yes
   with_items:
     - "{{ wtd_rsnapshot_config_retains }}"
+  when: wtd_rsnapshot_state == "present"
