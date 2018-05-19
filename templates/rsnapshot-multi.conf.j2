@@ -12,7 +12,7 @@
 # CONFIG FILE VERSION #
 #######################
 
-config_version	{{ wtd_rsnapshot_config_version }}
+config_version	{{ item.config_version | default(wtd_rsnapshot_config_version) }}
 
 ###########################
 # SNAPSHOT ROOT DIRECTORY #
@@ -20,14 +20,14 @@ config_version	{{ wtd_rsnapshot_config_version }}
 
 # All snapshots will be stored under this root directory.
 #
-snapshot_root	{{ wtd_rsnapshot_config_snapshot_root }}
+snapshot_root	{{ item.snapshot_root | default(wtd_rsnapshot_config_snapshot_root) }}
 
 # if defined no_create_root is enabled, rsnapshot will not automatically create the
 # snapshot_root directory. This is particularly useful if defined you are backing
 # up to removable media, such as a FireWire or USB drive.
 #
-{% if wtd_rsnapshot_config_no_create_root is defined %} 
-no_create_root	{{ wtd_rsnapshot_config_no_create_root }}
+{% if item.no_ceate_root is defined %} 
+no_create_root	{{ item.no_create_root }}
 {% else %}
 #no_create_root  1
 {% endif %}
@@ -41,16 +41,19 @@ no_create_root	{{ wtd_rsnapshot_config_no_create_root }}
 #
 # See the README file or the man page for more details.
 #
-{% if wtd_rsnapshot_config_cmd_cp is defined %}
-cmd_cp	{{ wtd_rsnapshot_config_cmd_cp }}
+{% if item.cmd_cp is defined %}
+cmd_cp	{{ item.cmd_cp }}
 {% else %}
 #cmd_cp	/usr/bin/cp
 {% endif %}
 
 # uncomment this to use the rm program instead of the built-in perl routine.
 #
-{% if wtd_rsnapshot_config_cmd_rm is defined %}
-cmd_rm	{{ wtd_rsnapshot_config_cmd_rm }}
+{% if item.cmd_rm is defined %}
+cmd_rm	{{ item.cmd_rm }}
+{% endif %}
+{% if item.cmd_rm is defined %}
+cmd_rm	{{ item.cmd_rm }}
 {% else %}
 cmd_rm	/usr/bin/rm
 {% endif %}
@@ -58,24 +61,24 @@ cmd_rm	/usr/bin/rm
 # rsync must be enabled for anything to work. This is the only command that
 # must be enabled.
 #
-{% if wtd_rsnapshot_config_cmd_rsync is defined %}
-cmd_rsync	{{ wtd_rsnapshot_config_cmd_rsync }}
+{% if item.cmd_rsync is defined %}
+cmd_rsync	{{ item.cmd_rsync }}
 {% else %}
 cmd_rsync	/usr/bin/rsync
 {% endif %}
 
 # Uncomment this to enable remote ssh backups over rsync.
 #
-{% if wtd_rsnapshot_config_cmd_ssh is defined %}
-cmd_ssh	{{ wtd_rsnapshot_config_cmd_ssh }}
+{% if item.cmd_ssh is defined %}
+cmd_ssh	{{ item.cmd_ssh }}
 {% else %}
 #cmd_ssh	/usr/bin/ssh
 {% endif %}
 
 # Comment this out to disable syslog support.
 #
-{% if wtd_rsnapshot_config_cmd_logger is defined %}
-cmd_logger	{{ wtd_rsnapshot_config_cmd_logger }}
+{% if item.cmd_logger is defined %}
+cmd_logger	{{ item.cmd_logger }}
 {% else %}
 #cmd_logger	/usr/bin/logger
 {% endif %}
@@ -84,16 +87,16 @@ cmd_logger	{{ wtd_rsnapshot_config_cmd_logger }}
 # if defined you have an older version of "du", you may also want to check the
 # "du_args" parameter below.
 #
-{% if wtd_rsnapshot_config_cmd_du is defined %}
-cmd_du	{{ wtd_rsnapshot_config_cmd_du }}
+{% if item.cmd_du is defined %}
+cmd_du	{{ item.cmd_du }}
 {% else %}
 #cmd_du	/usr/bin/du
 {% endif %}
 
 # Uncomment this to specif definedy the path to rsnapshot-dif definedf.
 #
-{% if wtd_rsnapshot_config_cmd_rsnapshot_dif is defined %}
-cmd_rsnapshot_diff	{{ wtd_rsnapshot_config_cmd_rsnapshot_diff }}
+{% if item.cmd_rsnapshot_dif is defined %}
+cmd_rsnapshot_diff	{{ item.cmd_rsnapshot_diff }}
 {% else %}
 #cmd_rsnapshot_diff	/usr/local/bin/rsnapshot-diff
 {% endif %}
@@ -101,8 +104,8 @@ cmd_rsnapshot_diff	{{ wtd_rsnapshot_config_cmd_rsnapshot_diff }}
 # Specif definedy the path to a script (and any optional arguments) to run right
 # before rsnapshot syncs files
 #
-{% if wtd_rsnapshot_config_cmd_preexec is defined %}
-cmd_preexec	{{ wtd_rsnapshot_config_cmd_preexec }}
+{% if item.cmd_preexec is defined %}
+cmd_preexec	{{ item.cmd_preexec }}
 {% else %}
 #cmd_preexec	/path/to/preexec/script
 {% endif %}
@@ -110,8 +113,8 @@ cmd_preexec	{{ wtd_rsnapshot_config_cmd_preexec }}
 # Specif definedy the path to a script (and any optional arguments) to run right
 # after rsnapshot syncs files
 #
-{% if wtd_rsnapshot_config_cmd_postexec is defined %}
-cmd_postexec	{{ wtd_rsnapshot_config_cmd_postexec }}
+{% if item.cmd_postexec is defined %}
+cmd_postexec	{{ item.cmd_postexec }}
 {% else %}
 #cmd_postexec	/path/to/postexec/script
 {% endif %}
@@ -119,24 +122,24 @@ cmd_postexec	{{ wtd_rsnapshot_config_cmd_postexec }}
 # Paths to lvcreate, lvremove, mount and umount commands, for use with
 # Linux LVMs.
 #
-{% if wtd_rsnapshot_config_linux_lvm_cmd_lvcreate is defined %}
-linux_lvm_cmd_lvcreate	{{ wtd_rsnapshot_config_linux_lvm_cmd_lvcreate }}
+{% if item.linux_lvm_cmd_lvcreate is defined %}
+linux_lvm_cmd_lvcreate	{{ item.linux_lvm_cmd_lvcreate }}
 {% else %}
 #linux_lvm_cmd_lvcreate	/usr/sbin/lvcreate
 {% endif %}
 
-{% if wtd_rsnapshot_config_linux_lvm_cmd_lvremove is defined %}
-linux_lvm_cmd_lvremove	{{ wtd_rsnapshot_config_linux_lvm_cmd_lvremove }}
+{% if item.linux_lvm_cmd_lvremove is defined %}
+linux_lvm_cmd_lvremove	{{ item.linux_lvm_cmd_lvremove }}
 {% else %}
 #linux_lvm_cmd_lvremove	/usr/sbin/lvremove
 {% endif %}
-{% if wtd_rsnapshot_config_linux_lvm_cmd_mount is defined %}
-linux_lvm_cmd_mount	{{ wtd_rsnapshot_config_linux_lvm_cmd_mount }}
+{% if item.linux_lvm_cmd_mount is defined %}
+linux_lvm_cmd_mount	{{ item.linux_lvm_cmd_mount }}
 {% else %}
 #linux_lvm_cmd_mount	/usr/bin/mount
 {% endif %}
-{% if wtd_rsnapshot_config_linux_lvm_cmd_umount is defined %}
-linux_lvm_cmd_umount	{{ wtd_rsnapshot_config_linux_lvm_cmd_umount }}
+{% if item.linux_lvm_cmd_umount is defined %}
+linux_lvm_cmd_umount	{{ item.linux_lvm_cmd_umount }}
 {% else %}
 #linux_lvm_cmd_umount	/usr/bin/umount
 {% endif %}
@@ -147,8 +150,8 @@ linux_lvm_cmd_umount	{{ wtd_rsnapshot_config_linux_lvm_cmd_umount }}
 # e.g. alpha, beta, gamma, etc.         #
 #########################################
 
-{% if wtd_rsnapshot_config_retains is defined %}
-{% for e in wtd_rsnapshot_config_retains %}
+{% if item.retains is defined %}
+{% for e in item.retains %}
 retain	{{ e.name }}	{{ e.value }}
 {% endfor %}
 {% endif %}
@@ -166,18 +169,18 @@ retain	{{ e.name }}	{{ e.value }}
 # 5     Debug mode      Everything
 #
 
-verbose	{{ wtd_rsnapshot_config_verbose }}
+verbose	{{ item.verbose | default(wtd_rsnapshot_config_verbose) }}
 
 # Same as "verbose" above, but controls the amount of data sent to the
 # logfile, if defined one is being used. The default is 3.
 #
-loglevel	{{ wtd_rsnapshot_config_loglevel }}
+loglevel	{{ item.loglevel | default(wtd_rsnapshot_config_loglevel) }}
 
 # if defined you enable this, data will be written to the file you specif definedy. The
 # amount of data written is controlled by the "loglevel" parameter.
 #
-{% if wtd_rsnapshot_config_logfile is defined %}
-logfile	{{ wtd_rsnapshot_config_logfile }}
+{% if item.logfile is defined %}
+logfile	{{ item.logfile }}
 {% else %}
 #logfile	/var/log/rsnapshot
 {% endif %}
@@ -187,35 +190,35 @@ logfile	{{ wtd_rsnapshot_config_logfile }}
 # if defined you enable this, make sure the lockfile directory is not world
 # writable. Otherwise anyone can prevent the program from running.
 #
-lockfile	{{ wtd_rsnapshot_config_lockfile }}
+lockfile	{{ item.lockfile | default(wtd_rsnapshot_config_lockfile) }}
 
 # By default, rsnapshot check lockfile, check if defined PID is running
 # and if defined not, consider lockfile as stale, then start
 # Enabling this stop rsnapshot if defined PID in lockfile is not running
 #
-{% if wtd_rsnapshot_config_stop_on_stale_lockfile is defined %}
-stop_on_stale_lockfile	{{ wtd_rsnapshot_config_stop_on_stale_lockfile }}
+{% if item.stop_on_stale_lockfile is defined %}
+stop_on_stale_lockfile	{{ item.stop_on_stale_lockfile }}
 {% else %}
 #stop_on_stale_lockfile	0
 {% endif %}
 
 # Default rsync args. All rsync commands have at least these options set.
 #
-{% if wtd_rsnapshot_config_rsync_short_args is defined %}
-rsync_short_args	{{ wtd_rsnapshot_config_rsync_short_args }}
+{% if item.rsync_short_args is defined %}
+rsync_short_args	{{ item.rsync_short_args }}
 {% else %}
 #rync_short_args	-a
 {% endif %}
-{% if wtd_rsnapshot_config_rsync_long_args is defined %}
-rsync_long_args	{{ wtd_rsnapshot_config_rsync_long_args }}
+{% if item.rsync_long_args is defined %}
+rsync_long_args	{{ item.rsync_long_args }}
 {% else %}
 #rsync_long_args	--delete --numeric-ids --relative --delete-excluded
 {% endif %}
 
 # ssh has no args passed by default, but you can specif definedy some here.
 #
-{% if wtd_rsnapshot_config_ssh_args is defined %}
-ssh_args	{{ wtd_rsnapshot_config_ssh_args }}
+{% if item.ssh_args is defined %}
+ssh_args	{{ item.ssh_args }}
 {% else %}
 #ssh_args	-p 22
 {% endif %}
@@ -224,8 +227,8 @@ ssh_args	{{ wtd_rsnapshot_config_ssh_args }}
 # The GNU version of "du" is preferred. See the man page for more details.
 # if defined your version of "du" doesn't support the -h flag, try -k flag instead.
 #
-{% if wtd_rsnapshot_config_du_args is defined %}
-du_args	{{ wtd_rsnapshot_config_du_args }}
+{% if item.du_args is defined %}
+du_args	{{ item.du_args }}
 {% else %}
 #du_args	-csh
 {% endif %}
@@ -234,8 +237,8 @@ du_args	{{ wtd_rsnapshot_config_du_args }}
 # backup point. This essentially passes the -x option to rsync.
 # The default is 0 (off).
 #
-{% if wtd_rsnapshot_config_one_fs is defined %}
-one_fs	{{ wtd_rsnapshot_config_one_fs }}
+{% if item.one_fs is defined %}
+one_fs	{{ item.one_fs }}
 {% else %}
 #one_fs	0
 {% endif %}
@@ -245,8 +248,8 @@ one_fs	{{ wtd_rsnapshot_config_one_fs }}
 # separate line. Please look up the --include and --exclude options in the
 # rsync man page for more details on how to specif definedy file name patterns. 
 # 
-{% if wtd_rsnapshot_config_include  is defined %}
-{% for e in wtd_rsnapshot_config_include %}
+{% if item.include  is defined %}
+{% for e in item.include %}
 include	{{ e.value }}
 {% endfor %}
 {% else %}
@@ -254,8 +257,8 @@ include	{{ e.value }}
 #include  ???
 {% endif %}
 
-{% if wtd_rsnapshot_config_exclude is defined %}
-{% for e in wtd_rsnapshot_config_exclude %}
+{% if item.exclude is defined %}
+{% for e in item.exclude %}
 exclude	{{ e.value }}
 {% endfor %}
 {% else %}
@@ -267,16 +270,16 @@ exclude	{{ e.value }}
 # passed directly to rsync. Please look up the --include-from and
 # --exclude-from options in the rsync man page for more details.
 #
-{% if wtd_rsnapshot_config_include_file is defined %}
-{% for e in wtd_rsnapshot_config_include_file %}
+{% if item.include_file is defined %}
+{% for e in item.include_file %}
 include_file	{{ e.value }}
 {% endfor %}
 {% else %}
 #include_file	/path/to/include/file
 {% endif %}
 
-{% if wtd_rsnapshot_config_exclude_file is defined %}
-{% for e in wtd_rsnapshot_config_exclude_file %}
+{% if item.exclude_file is defined %}
+{% for e in item.exclude_file %}
 exclude_file	{{ e.value }}
 {% endfor %}
 {% else %}
@@ -287,8 +290,8 @@ exclude_file	{{ e.value }}
 # This is the best way to support special files (Fif definedOs, etc) cross-platform.
 # The default is 0 (off).
 #
-{% if wtd_rsnapshot_config_link_dest is defined %}
-link_dest	{{ wtd_rsnapshot_config_link_dest }}
+{% if item.link_dest is defined %}
+link_dest	{{ item.link_dest }}
 {% else %}
 #link_dest  0
 {% endif %}
@@ -301,7 +304,7 @@ link_dest	{{ wtd_rsnapshot_config_link_dest }}
 # details. The default is 0 (off).
 #
 {% if wtd_rsnaphsot_config_sync_first is defined %}
-sync_first	{{ wtd_rsnapshot_config_sync_first }}
+sync_first	{{ item.sync_first }}
 {% else %}
 #sync_first 0
 {% endif %}
@@ -310,8 +313,8 @@ sync_first	{{ wtd_rsnapshot_config_sync_first }}
 # to [interval_name].delete, then it will remove the lockfile and delete
 # that directory just before it exits. The default is 0 (off).
 #
-{% if wtd_rsnapshot_config_use_lazy_deletes is defined %}
-use_lazy_deletes	{{ wtd_rsnapshot_config_use_lazy_deleted }}
+{% if item.use_lazy_deletes is defined %}
+use_lazy_deletes	{{ item.use_lazy_deleted }}
 {% else %}
 #use_lazy_deletes 0
 {% endif %}
@@ -321,8 +324,8 @@ use_lazy_deletes	{{ wtd_rsnapshot_config_use_lazy_deleted }}
 # "Corrupted MAC on input", for example, set this to a non-zero value
 # to have the rsync operation re-tried.
 #
-{% if wtd_rsnapshot_config_rsync_numtries is defined %}
-rsync_numtries	{{ wtd_rsnapshot_config_rsync_numtries }}
+{% if item.rsync_numtries is defined %}
+rsync_numtries	{{ item.rsync_numtries }}
 {% else %}
 #rsync_numtries 0
 {% endif %}
@@ -333,32 +336,32 @@ rsync_numtries	{{ wtd_rsnapshot_config_rsync_numtries }}
 #
 # LVM snapshot(s) size (lvcreate --size option).
 #
-{% if wtd_rsnapshot_config_linux_lvm_snapshotsize is defined %}
-linux_lvm_snapshotsize	{{ wtd_rsnapshot_config_linux_lvm_snapshotsize }}
+{% if item.linux_lvm_snapshotsize is defined %}
+linux_lvm_snapshotsize	{{ item.linux_lvm_snapshotsize }}
 {% else %}
 #linux_lvm_snapshotsize 100M
 {% endif %}
 
 # Name to be used when creating the LVM logical volume snapshot(s).
 #
-{% if wtd_rsnapshot_config_linux_lvm_snapshotname is defined %}
-linux_lvm_snapshotname	{{ wtd_rsnapshot_config_linux_lvm_snahshotname }}
+{% if item.linux_lvm_snapshotname is defined %}
+linux_lvm_snapshotname	{{ item.linux_lvm_snahshotname }}
 {% else %}
 #linux_lvm_snapshotname rsnapshot
 {% endif %}
 
 # Path to the LVM Volume Groups.
 #
-{% if wtd_rsnapshot_config_linux_lvm_vgpath is defined %}
-linux_lvm_vgpath	{{ wtd_rsnapshot_config_linux_lvm_vgpath }}
+{% if item.linux_lvm_vgpath is defined %}
+linux_lvm_vgpath	{{ item.linux_lvm_vgpath }}
 {% else %}
 #linux_lvm_vgpath /dev
 {% endif %}
 
 # Mount point to use to temporarily mount the snapshot(s).
 #
-{% if wtd_rsnapshot_config_linux_lvm_mountpath is defined %}
-linux_lvm_mountpath	{{ wtd_rsnapshot_config_linux_lvm_mountpath }}
+{% if item.linux_lvm_mountpath is defined %}
+linux_lvm_mountpath	{{ item.linux_lvm_mountpath }}
 {% else %}
 #linux_lvm_mountpath  /path/to/mount/lvm/snapshot/during/backup
 {% endif %}
@@ -369,9 +372,9 @@ linux_lvm_mountpath	{{ wtd_rsnapshot_config_linux_lvm_mountpath }}
 
 # LOCALHOST
 
-{% if wtd_rsnapshot_config_backups is defined %}
-{% for e in wtd_rsnapshot_config_backups %}
-backup	{{ e.backup }}	{{ e.target }}
+{% if item.backups is defined %}
+{% for e in item.backups %}
+backup	{{ e.src }}	{{ e.target }}
 {% endfor %}
 {% else %}
 # LOCALHOST

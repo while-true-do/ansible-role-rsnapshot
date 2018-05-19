@@ -5,46 +5,30 @@
     name: "{{ wtd_rsnapshot_packages }}"
     state: "{{ wtd_rsnapshot_state }}"
 
-- name: set configuration for rsnapshot
-  template:
-    src: rsnapshot.conf.j2
-    dest: /etc/rsnapshot.conf
-    mode: 0644
-    owner: root
-    group: root
-    validate: "rsnapshot -c %s configtest"
-  when: wtd_rsnapshot_state == "present"
+- include_tasks: notify.yml
+  when: wtd_rsnapshot_notify
 
-- name: "copy template"
-  delegate_to: 127.0.0.1
-  copy:
-    src: "{{ role_path }}/templates/rsnapshot.timer.j2"
-    dest: "{{ role_path }}/templates/rsnapshot-{{ item.name }}.timer.j2"
-  with_items:
-    - "{{ wtd_rsnapshot_config_retains }}"
+- include_tasks: one.yml
+  when: wtd_rsnapshot_state == "present" and not wtd_rsnapshot_multi
+- include_tasks: multi.yml
+  when: wtd_rsnapshot_state == "present" and wtd_rsnapshot_multi
 
-- name: "Create Timer for Backup"
-  template:
-    src: "rsnapshot-{{ item.name}}.timer.j2"
-    dest: "/etc/systemd/system/rsnapshot-{{ item.name }}.timer"
-    owner: root
-    group: root
-    mode: 0644
-  with_items:
-    - "{{ wtd_rsnapshot_config_retains }}"
-
-- name: "Create Service for Backup"
-  template:
-    src: "rsnapshot@.service.j2"
-    dest: "/etc/systemd/system/rsnapshot@.service"
-    owner: root
-    group: root
-    mode: 0644
-
-- name: enable and start service rsnapshot timer
-  systemd:
-    name: "rsnapshot-{{ item.name }}.timer"
-    state: started
-    enabled: yes
-  with_items:
-    - "{{ wtd_rsnapshot_config_retains }}"
+  # source: https://stackoverflow.com/questions/41551620/how-to-get-the-installed-yum-packages-with-ansible
+  #- debug:
+  #    msg: '{{rsnapshot_version}}'
+  #
+  #- debug: var=item
+  #  with_items: "{{yum_packages|json_query(jsonquery)}}"
+  #  vars:
+  #    jsonquery: "results[?name=='tar'].version"
+  #- name: "Copy rsnapreport.pl into bin folder"
+  #  copy:
+  #    src: '/usr/share/doc/rsnapshot-{{ rsnapshot_version }}/utils/rsnapreport.pl'
+  #    dest: /usr/local/bin/rsnapreport.pl
+  #    mode: 0655
+  #    user: root
+  #    group: root
+  #  when: wtd_rsnapshot_notify
+  #
+  #- debug:
+  #  msg: "{{ rsnapshot_version }}"

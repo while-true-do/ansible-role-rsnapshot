@@ -92,15 +92,41 @@ Simple Example:
 - hosts: servers 
   roles:
     - { role: while-true-do.rsnapshot }
+  vars:
+    - wtd_rsnapshot_config_shapshot_root: '/backup/'
+    - wtd_rsnapshot_config_retains:
+      - name: 'daily'
+        value: '7'
+    - wtd_rsnapshot_config_backups:
+      - backup: /home/cinux
+        target: home/
 ```
 
 Advanced Example:
-
+rsnapshot is not designed to run multiple instance at the same time by using one config-file.
+Because of this its possible to set the `wtd_rsnapshot_config_multi` variable as following:
 ```yaml
 - hosts: servers 
   roles:
-    - { role: while-true-do.rsnapshot, wtd_rsnapshot_config_ssh_args: -p 1022 }
+    - { role: while-true-do.rsnapshot }
+  vars:
+    - wtd_rsnapshot_config_multi:
+      - name: home-cinux
+        retains:
+          - name: daily
+            value: '7'
+          - name: weekly
+            value: '4'
+            time: '02:15'
+        time: '02:00'
+        backups:
+          - src: /home/cinux
+            dest: homes/
+        snapshot_root: '/backup'
 ```
+
+For each entry a seperate configuration file gets created under /etc/rsnapshot.
+Additionaly to this for each retains we create a timer which trigger the rsnapshot run if the time is arrived. And of course you can create for each retains a different time. This helps to run different retains on different times.
 
 ## Testing
 

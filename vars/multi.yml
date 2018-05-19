@@ -1,0 +1,17 @@
+---
+wtd_rsnapshot_config_multi:
+  - name: documents
+    lockfile: /var/run/rsnapshot-documents.pid
+    logfile: /var/log/rsnapshot
+    retains:
+      - name: daily
+        value: '6'
+      - name: weekly
+        value: '3'
+        time: '00:30'
+    time: '16:20'
+    snapshot_root: '/backup'
+    backups:
+      - src: /home/cinux/Dokumente
+        target: localhost/
+    execStart: /usr/bin/rsnapshot -c /etc/rsnapshot-share.conf %I 2>&1 | rsnapreport.pl | mail -s'backups Report' admin@mydomain.com

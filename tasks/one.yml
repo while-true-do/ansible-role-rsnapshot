@@ -1,0 +1,44 @@
+- name: set configuration for rsnapshot
+  template:
+    src: rsnapshot.conf.j2
+    dest: /etc/rsnapshot.conf
+    mode: 0644
+    owner: root
+    group: root
+    validate: "rsnapshot -c %s configtest"
+
+- name: "copy templates"
+  delegate_to: 127.0.0.1
+  copy:
+    src: "{{ role_path }}/templates/rsnapshot.timer.j2"
+    dest: "{{ role_path }}/templates/rsnapshot-{{ item.name }}.timer.j2"
+  with_items:
+    - "{{ wtd_rsnapshot_config_retains }}"
+
+- name: "Create Timer for Backup"
+  template:
+    src: "rsnapshot-{{ item.name}}.timer.j2"
+    dest: "/etc/systemd/system/rsnapshot-{{ item.name }}.timer"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "{{ wtd_rsnapshot_config_retains }}"
+
+
+- name: "Create Service for Backup"
+  template:
+    src: "rsnapshot@.service.j2"
+    dest: "/etc/systemd/system/rsnapshot@.service"
+    owner: root
+    group: root
+    mode: 0644
+  
+
+- name: enable and start service rsnapshot timer
+  systemd:
+    name: "rsnapshot-{{ item.name }}.timer"
+    state: started
+    enabled: yes
+  with_items:
+    - "{{ wtd_rsnapshot_config_retains }}"

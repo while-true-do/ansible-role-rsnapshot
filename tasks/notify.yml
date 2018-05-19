@@ -1,0 +1,18 @@
+- name: "Get Version of rsnapshot"
+  #shell: "yum info rsnapshot | grep Version | awk -F : '{ print $2 }'| sed 's/ //g'"
+  shell: "`which yum` list installed rsnapshot | grep rsnapshot | awk '{print $2}' | cut -d'-' -f1"
+  register: rsnapshot_version
+
+- name: "Copy rsnapreport.pl into bin folder"
+  command: "cp /usr/share/doc/rsnapshot-{{rsnapshot_version.stdout}}/utils/rsnapreport.pl /usr/local/bin/rsnapreport.pl"
+  #    src: '/usr/share/doc/rsnapshot-{{rsnapshot_version.stdout}}/utils/rsnapreport.pl'
+  #    dest: /usr/local/bin/rsnapreport.pl
+  #    mode: 0655
+  #    user: root
+  #    group: root
+
+- file:
+    path: /usr/local/bin/rsnapreport.pl
+    owner: root
+    group: root
+    mode: 0655

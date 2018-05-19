@@ -5,4 +5,4 @@ Description=rsnapshot (%I) backup
 Type=oneshot
 Nice=19
 IOSchedulingClass=idle
-ExecStart={{ wtd_rsnapshot_service_execStart }}
+ExecStart={{ item.execStart }}

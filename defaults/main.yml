@@ -5,6 +5,7 @@
 wtd_rsnapshot_state: "present"
 wtd_rsnapshot_packages: "rsnapshot"
 
+wtd_rsnapshot_notify: true
 wtd_rsnapshot_config_version: 1.2
 
 wtd_rsnapshot_config_snapshot_root: "/.snapshots/"
@@ -12,6 +13,8 @@ wtd_rsnapshot_config_snapshot_root: "/.snapshots/"
 wtd_rsnapshot_config_cmd_rm: "/usr/bin/rm"
 wtd_rsnapshot_config_cmd_rsync: "/usr/bin/rsync"
 wtd_rsnapshot_config_cmd_logger: "/usr/bin/logger"
+
+wtd_rsnapshot_multi: true
 
 wtd_rsnapshot_config_retains:
   - name: "alpha"
@@ -31,7 +34,11 @@ wtd_rsnapshot_config_retains:
     # 1 delta backup every month, at 11:30PM on the 1st day of the month
     time: '*-*-01 23:30'
 
+# for rsnapreport.pl verbose >= 3 is needed
 wtd_rsnapshot_config_verbose: 3
+# --stats also needed for rsnapreport.pl
+wtd_rsnapshot_config_rsync_long_args: '--stats'
+
 wtd_rsnapshot_config_loglevel: 3
 wtd_rsnapshot_config_logfile: "/var/log/rsnapshot"
 
@@ -42,4 +49,4 @@ wtd_rsnapshot_config_backups:
     target: localhost/
 
 wtd_rsnapshot_timer_time: '00:30'
-wtd_rsnapshot_service_execStart: /usr/bin/rsnapshot %I
+wtd_rsnapshot_service_execStart: /usr/bin/rsnapshot %I 2>&1 | rsnapreport.pl | mail -s"Backup Report" admin@mydomain.com
