@@ -17,7 +17,7 @@
 
 - name: "Create Timer for Backup"
   template:
-    src: "rsnapshot-{{ item.name}}.timer.j2"
+    src: "rsnapshot-{{ item.name }}.timer.j2"
     dest: "/etc/systemd/system/rsnapshot-{{ item.name }}.timer"
     owner: root
     group: root

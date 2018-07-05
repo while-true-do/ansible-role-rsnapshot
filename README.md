@@ -111,7 +111,7 @@ Because of this its possible to set the `wtd_rsnapshot_config_multi` variable as
     - { role: while-true-do.rsnapshot }
   vars:
     - wtd_rsnapshot_config_multi:
-      - name: home-cinux
+      - name: documents-cinux
         retains:
           - name: daily
             value: '7'
@@ -120,7 +120,19 @@ Because of this its possible to set the `wtd_rsnapshot_config_multi` variable as
             time: '02:15'
         time: '02:00'
         backups:
-          - src: /home/cinux
+          - src: /home/cinux/documents
+            dest: homes/
+        snapshot_root: '/backup-documents'
+      - name: pictures-cinux
+        retains:
+          - name: daily
+            value: '7'
+          - name: weekly
+            value: '4'
+            time: '02:15'
+        time: '02:00'
+        backups:
+          - src: /home/cinux/pictures
             dest: homes/
         snapshot_root: '/backup'
 ```

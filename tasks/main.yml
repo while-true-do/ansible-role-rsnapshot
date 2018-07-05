@@ -12,23 +12,3 @@
   when: wtd_rsnapshot_state == "present" and not wtd_rsnapshot_multi
 - include_tasks: multi.yml
   when: wtd_rsnapshot_state == "present" and wtd_rsnapshot_multi
-
-  # source: https://stackoverflow.com/questions/41551620/how-to-get-the-installed-yum-packages-with-ansible
-  #- debug:
-  #    msg: '{{rsnapshot_version}}'
-  #
-  #- debug: var=item
-  #  with_items: "{{yum_packages|json_query(jsonquery)}}"
-  #  vars:
-  #    jsonquery: "results[?name=='tar'].version"
-  #- name: "Copy rsnapreport.pl into bin folder"
-  #  copy:
-  #    src: '/usr/share/doc/rsnapshot-{{ rsnapshot_version }}/utils/rsnapreport.pl'
-  #    dest: /usr/local/bin/rsnapreport.pl
-  #    mode: 0655
-  #    user: root
-  #    group: root
-  #  when: wtd_rsnapshot_notify
-  #
-  #- debug:
-  #  msg: "{{ rsnapshot_version }}"

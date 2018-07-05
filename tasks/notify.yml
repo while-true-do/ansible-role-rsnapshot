@@ -4,12 +4,7 @@
   register: rsnapshot_version
 
 - name: "Copy rsnapreport.pl into bin folder"
-  command: "cp /usr/share/doc/rsnapshot-{{rsnapshot_version.stdout}}/utils/rsnapreport.pl /usr/local/bin/rsnapreport.pl"
-  #    src: '/usr/share/doc/rsnapshot-{{rsnapshot_version.stdout}}/utils/rsnapreport.pl'
-  #    dest: /usr/local/bin/rsnapreport.pl
-  #    mode: 0655
-  #    user: root
-  #    group: root
+  command: "cp /usr/share/doc/rsnapshot-{{ rsnapshot_version.stdout }}/utils/rsnapreport.pl /usr/local/bin/rsnapreport.pl"
 
 - file:
     path: /usr/local/bin/rsnapreport.pl
