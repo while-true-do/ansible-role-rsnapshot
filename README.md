@@ -29,6 +29,10 @@ Used Modules:
 
 -   [packages](http://docs.ansible.com/ansible/latest/package_module.html)
 -   [template](http://docs.ansible.com/ansible/latest/template_module.html)
+-   [systemd](https://docs.ansible.com/ansible/latest/systemd_module.html)
+-   [shell](https://docs.ansible.com/ansible/latest/shell_module.html)
+-   [command](https://docs.ansible.com/ansible/latest/command_module.html)
+-   [file](https://docs.ansible.com/ansible/latest/file_module.html)
 
 ## Dependencies
 

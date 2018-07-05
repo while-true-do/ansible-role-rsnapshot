@@ -9,6 +9,6 @@
   when: wtd_rsnapshot_notify
 
 - include_tasks: one.yml
-  when: wtd_rsnapshot_state == "present" and not wtd_rsnapshot_multi
+  when: wtd_rsnapshot_state == "present" and not wtd_rsnapshot_config_multi
 - include_tasks: multi.yml
-  when: wtd_rsnapshot_state == "present" and wtd_rsnapshot_multi
+  when: wtd_rsnapshot_state == "present" and wtd_rsnapshot_config_multi == "true"

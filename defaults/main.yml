@@ -6,6 +6,8 @@ wtd_rsnapshot_state: "present"
 wtd_rsnapshot_packages: "rsnapshot"
 
 wtd_rsnapshot_notify: true
+
+wtd_rsnapshot_config_multi: false
 wtd_rsnapshot_config_version: 1.2
 
 wtd_rsnapshot_config_snapshot_root: "/.snapshots/"
@@ -13,8 +15,6 @@ wtd_rsnapshot_config_snapshot_root: "/.snapshots/"
 wtd_rsnapshot_config_cmd_rm: "/usr/bin/rm"
 wtd_rsnapshot_config_cmd_rsync: "/usr/bin/rsync"
 wtd_rsnapshot_config_cmd_logger: "/usr/bin/logger"
-
-wtd_rsnapshot_multi: true
 
 wtd_rsnapshot_config_retains:
   - name: "alpha"

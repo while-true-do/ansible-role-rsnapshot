@@ -7,17 +7,18 @@
     group: root
     validate: "rsnapshot -c %s configtest"
 
-- name: "copy templates"
-  delegate_to: 127.0.0.1
-  copy:
-    src: "{{ role_path }}/templates/rsnapshot.timer.j2"
-    dest: "{{ role_path }}/templates/rsnapshot-{{ item.name }}.timer.j2"
-  with_items:
-    - "{{ wtd_rsnapshot_config_retains }}"
+    #- name: "copy templates"
+    #  delegate_to: 127.0.0.1
+    #  copy:
+    #    src: "{{ role_path }}/templates/rsnapshot.timer.j2"
+    #    dest: "{{ role_path }}/templates/rsnapshot-{{ item.name }}.timer.j2"
+    #  with_items:
+    #    - "{{ wtd_rsnapshot_config_retains }}"
 
 - name: "Create Timer for Backup"
   template:
-    src: "rsnapshot-{{ item.name }}.timer.j2"
+    #src: "rsnapshot-{{ item.name }}.timer.j2"
+    src: "rsnapshot.timer.j2"
     dest: "/etc/systemd/system/rsnapshot-{{ item.name }}.timer"
     owner: root
     group: root
