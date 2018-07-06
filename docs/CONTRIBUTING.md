@@ -1,4 +1,4 @@
-# Contributing Code
+# Contribution Code
 | While True Do Contribution Guidelines
 
 
