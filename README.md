@@ -141,8 +141,8 @@ Because of this its possible to set the `wtd_rsnapshot_config_multi` variable as
         snapshot_root: '/backup'
 ```
 
-For each entry a seperate configuration file gets created under /etc/rsnapshot.
-Additionaly to this for each retains we create a timer which trigger the rsnapshot run if the time is arrived. And of course you can create for each retains a different time. This helps to run different retains on different times.
+For each entry a separate configuration file gets created under /etc/rsnapshot.
+Additionally to this for each retains we create a timer which trigger the rsnapshot run if the time is arrived. And of course you can create for each retains a different time. This helps to run different retains on different times.
 
 ## Testing
 

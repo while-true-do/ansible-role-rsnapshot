@@ -1,12 +1,18 @@
 - name: "Get Version of rsnapshot"
   #shell: "yum info rsnapshot | grep Version | awk -F : '{ print $2 }'| sed 's/ //g'"
-  shell: "`which yum` list installed rsnapshot | grep rsnapshot | awk '{print $2}' | cut -d'-' -f1"
-  register: rsnapshot_version
+  command: "`which yum` list installed rsnapshot | grep rsnapshot | awk '{print $2}' | cut -d'-' -f1"
+  register: wtd_rsnapshot_notify_version
+  changed_when: wtd_rsnapshot_notify_version.rc == 0
+  failed_when: wtd_rsnapshot_notify_version.rc != 0
 
 - name: "Copy rsnapreport.pl into bin folder"
   command: "cp /usr/share/doc/rsnapshot-{{ rsnapshot_version.stdout }}/utils/rsnapreport.pl /usr/local/bin/rsnapreport.pl"
+  register: wtd_rsnapshot_notify_copy
+  changed_when: wtd_rsnapshot_notify_copy.rc == 0
+  failed_when: wtd_rsnapshot_notify_copy.rc != 0
 
-- file:
+- name: "Change Permissions of rsnapreport.pl"
+  file:
     path: /usr/local/bin/rsnapreport.pl
     owner: root
     group: root
