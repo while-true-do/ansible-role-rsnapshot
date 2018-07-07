@@ -1,6 +1,6 @@
 # CHANGEME: Fill in all needed information
 dependencies:
-  - while-true-do.repo-epel
+  - while_true_do.repo-epel
 
 galaxy_info:
   author: while-true-do.org
@@ -9,8 +9,7 @@ galaxy_info:
 
 # If the issue tracker for your role is not on github, uncomment the
 # next line and provide a value
-# issue_tracker_url: http://example.com/issue/tracker
-
+# 
   github_branch: master
   license: BSD
 

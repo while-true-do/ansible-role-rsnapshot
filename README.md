@@ -11,16 +11,16 @@ And keep in mind:
 
 ## Installation
 
-Install from [Ansible Galaxy](https://galaxy.ansible.com/while-true-do/rsnapshot)
+Install from [Ansible Galaxy](https://galaxy.ansible.com/while_true_do/rsnapshot)
 
 ```
-ansible-galaxy install while-true-do.rsnapshot
+ansible-galaxy install while_true_do.rsnapshot
 ```
 
 Install from [Github](https://github.com/while-true-do/ansible-role-rsnapshot)
 
 ```
-git clone https://github.com/while-true-do/ansible-role-rsnapshot.git while-true-do.rsnapshot
+git clone https://github.com/while-true-do/ansible-role-rsnapshot.git while_true_do.rsnapshot
 ```
 
 ## Requirements
@@ -95,7 +95,7 @@ Simple Example:
 ```yaml
 - hosts: servers 
   roles:
-    - { role: while-true-do.rsnapshot }
+    - { role: while_true_do.rsnapshot }
   vars:
     - wtd_rsnapshot_config_shapshot_root: '/backup/'
     - wtd_rsnapshot_config_retains:
@@ -112,7 +112,7 @@ Because of this its possible to set the `wtd_rsnapshot_config_multi` variable as
 ```yaml
 - hosts: servers 
   roles:
-    - { role: while-true-do.rsnapshot }
+    - { role: while_true_do.rsnapshot }
   vars:
     - wtd_rsnapshot_config_multi:
       - name: documents-cinux
