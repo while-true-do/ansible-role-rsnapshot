@@ -109,6 +109,7 @@ Simple Example:
 Advanced Example:
 rsnapshot is not designed to run multiple instance at the same time by using one config-file.
 Because of this its possible to set the `wtd_rsnapshot_config_multi` variable as following:
+
 ```yaml
 - hosts: servers 
   roles:
