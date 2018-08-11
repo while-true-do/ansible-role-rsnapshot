@@ -26,7 +26,7 @@ snapshot_root	{{ item.snapshot_root | default(wtd_rsnapshot_config_snapshot_root
 # snapshot_root directory. This is particularly useful if defined you are backing
 # up to removable media, such as a FireWire or USB drive.
 #
-{% if item.no_ceate_root is defined %} 
+{% if item.no_ceate_root is defined %}
 no_create_root	{{ item.no_create_root }}
 {% else %}
 #no_create_root  1
@@ -246,8 +246,8 @@ one_fs	{{ item.one_fs }}
 # The include and exclude parameters, if defined enabled, simply get passed directly
 # to rsync. if defined you have multiple include/exclude patterns, put each one on a
 # separate line. Please look up the --include and --exclude options in the
-# rsync man page for more details on how to specif definedy file name patterns. 
-# 
+# rsync man page for more details on how to specif definedy file name patterns.
+#
 {% if item.include  is defined %}
 {% for e in item.include %}
 include	{{ e.value }}

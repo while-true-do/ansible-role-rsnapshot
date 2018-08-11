@@ -5,7 +5,7 @@
 
 ## Motivation
 
-Easy, everyone needs backups. :) 
+Easy, everyone needs backups. :)
 And keep in mind:
 **No Backup, No Mercy**
 
@@ -49,9 +49,9 @@ If nothing is needed, please write "None."
 
 ## Role Variables
 
-<!-- 
+<!--
 The variable files should explain itself and pasted/linked here.
-Explanation should be done **in** the files, if needed. 
+Explanation should be done **in** the files, if needed.
 -->
 
 ```yaml
@@ -93,7 +93,7 @@ wtd_rsnapshot_config_backups:
 Simple Example:
 
 ```yaml
-- hosts: servers 
+- hosts: servers
   roles:
     - { role: while_true_do.rsnapshot }
   vars:
@@ -111,7 +111,7 @@ rsnapshot is not designed to run multiple instance at the same time by using one
 Because of this its possible to set the `wtd_rsnapshot_config_multi` variable as following:
 
 ```yaml
-- hosts: servers 
+- hosts: servers
   roles:
     - { role: while_true_do.rsnapshot }
   vars:
@@ -159,7 +159,7 @@ bash ./tests/test-ansible.sh
 ## Contribute / Bugs
 
 Thank you so much for considering to contribute. Every contribution helps us.
-We are really happy, when somebody is joining the hard work. Please have a look 
+We are really happy, when somebody is joining the hard work. Please have a look
 at the links first.
 
 -   [Code of Conduct](./docs/CODE_OF_CONDUCT.md)

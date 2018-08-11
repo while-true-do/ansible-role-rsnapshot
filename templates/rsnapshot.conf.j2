@@ -26,7 +26,7 @@ snapshot_root	{{ wtd_rsnapshot_config_snapshot_root }}
 # snapshot_root directory. This is particularly useful if defined you are backing
 # up to removable media, such as a FireWire or USB drive.
 #
-{% if wtd_rsnapshot_config_no_create_root is defined %} 
+{% if wtd_rsnapshot_config_no_create_root is defined %}
 no_create_root	{{ wtd_rsnapshot_config_no_create_root }}
 {% else %}
 #no_create_root  1
@@ -243,8 +243,8 @@ one_fs	{{ wtd_rsnapshot_config_one_fs }}
 # The include and exclude parameters, if defined enabled, simply get passed directly
 # to rsync. if defined you have multiple include/exclude patterns, put each one on a
 # separate line. Please look up the --include and --exclude options in the
-# rsync man page for more details on how to specif definedy file name patterns. 
-# 
+# rsync man page for more details on how to specif definedy file name patterns.
+#
 {% if wtd_rsnapshot_config_include  is defined %}
 {% for e in wtd_rsnapshot_config_include %}
 include	{{ e.value }}
