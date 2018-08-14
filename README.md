@@ -5,22 +5,22 @@
 
 ## Motivation
 
-Easy, everyone needs backups. :) 
+Easy, everyone needs backups. :)
 And keep in mind:
 **No Backup, No Mercy**
 
 ## Installation
 
-Install from [Ansible Galaxy](https://galaxy.ansible.com/while-true-do/rsnapshot)
+Install from [Ansible Galaxy](https://galaxy.ansible.com/while_true_do/rsnapshot)
 
 ```
-ansible-galaxy install while-true-do.rsnapshot
+ansible-galaxy install while_true_do.rsnapshot
 ```
 
 Install from [Github](https://github.com/while-true-do/ansible-role-rsnapshot)
 
 ```
-git clone https://github.com/while-true-do/ansible-role-rsnapshot.git while-true-do.rsnapshot
+git clone https://github.com/while-true-do/ansible-role-rsnapshot.git while_true_do.rsnapshot
 ```
 
 ## Requirements
@@ -49,9 +49,9 @@ If nothing is needed, please write "None."
 
 ## Role Variables
 
-<!-- 
+<!--
 The variable files should explain itself and pasted/linked here.
-Explanation should be done **in** the files, if needed. 
+Explanation should be done **in** the files, if needed.
 -->
 
 ```yaml
@@ -93,9 +93,9 @@ wtd_rsnapshot_config_backups:
 Simple Example:
 
 ```yaml
-- hosts: servers 
+- hosts: servers
   roles:
-    - { role: while-true-do.rsnapshot }
+    - { role: while_true_do.rsnapshot }
   vars:
     - wtd_rsnapshot_config_shapshot_root: '/backup/'
     - wtd_rsnapshot_config_retains:
@@ -109,10 +109,11 @@ Simple Example:
 Advanced Example:
 rsnapshot is not designed to run multiple instance at the same time by using one config-file.
 Because of this its possible to set the `wtd_rsnapshot_config_multi` variable as following:
+
 ```yaml
-- hosts: servers 
+- hosts: servers
   roles:
-    - { role: while-true-do.rsnapshot }
+    - { role: while_true_do.rsnapshot }
   vars:
     - wtd_rsnapshot_config_multi:
       - name: documents-cinux
@@ -158,7 +159,7 @@ bash ./tests/test-ansible.sh
 ## Contribute / Bugs
 
 Thank you so much for considering to contribute. Every contribution helps us.
-We are really happy, when somebody is joining the hard work. Please have a look 
+We are really happy, when somebody is joining the hard work. Please have a look
 at the links first.
 
 -   [Code of Conduct](./docs/CODE_OF_CONDUCT.md)
