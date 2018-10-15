@@ -5,10 +5,14 @@
     name: "{{ wtd_rsnapshot_packages }}"
     state: "{{ wtd_rsnapshot_state }}"
 
-- include_tasks: notify.yml
+- name: Include configuration for notification
+  include_tasks: notify.yml
   when: wtd_rsnapshot_notify
 
-- include_tasks: one.yml
-  when: wtd_rsnapshot_state == "present" and not wtd_rsnapshot_config_multi
-- include_tasks: multi.yml
-  when: wtd_rsnapshot_state == "present" and wtd_rsnapshot_config_multi == "true"
+- name: Include configuration for one rsnapshot task
+  include_tasks: one.yml
+  when: wtd_rsnapshot_state == "present" and not wtd_rsnapshot_config_multi_enabled
+
+- name: Include configuration for multiple rsnapshot tasks
+  include_tasks: multi.yml
+  when: wtd_rsnapshot_state == "present" and wtd_rsnapshot_config_multi_enabled
