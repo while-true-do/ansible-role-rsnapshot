@@ -53,6 +53,7 @@ cmd_cp	{{ wtd_rsnapshot_config_cmd_cp }}
 {% else %}
 #cmd_cp	/usr/bin/cp
 {% endif %}
+{% endif %}
 
 # uncomment this to use the rm program instead of the built-in perl routine.
 #
@@ -236,7 +237,7 @@ loglevel	{{ item.loglevel | default(wtd_rsnapshot_config_loglevel) }}
 logfile	{{ item.logfile }}
 {% else %}
 {% if wtd_rsnapshot_config_logfile is defined %}
-logfile {{ wtd_rsnapshot_config_logfile }}
+logfile	{{ wtd_rsnapshot_config_logfile }}
 {% else %}
 #logfile	/var/log/rsnapshot
 {% endif %}
