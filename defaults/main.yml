@@ -5,7 +5,7 @@
 wtd_rsnapshot_state: "present"
 wtd_rsnapshot_packages: "rsnapshot"
 
-wtd_rsnapshot_notify: true
+wtd_rsnapshot_notify: false
 
 wtd_rsnapshot_config_multi_enabled: false
 wtd_rsnapshot_config_version: 1.2
