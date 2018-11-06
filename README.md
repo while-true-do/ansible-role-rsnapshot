@@ -110,7 +110,7 @@ Advanced Example:
 rsnapshot is not designed to run multiple instance at the same time by using one config-file.
 Because of this its possible to set the `wtd_rsnapshot_config_multi_enabled` to `true` and configure multiple configurations of rsnapshot include systemd timers and services.
 Below you find a playbook with variable to get an illustration how the role works if you want to use multiple configurations.
-*NOTE:* Please only excute this playbook in a test machine. Its not fur productiv purpose.
+*NOTE:* Please only run this playbook in a test machine. Its for testing purpose.
 
 ```yaml
 - hosts: testmachine
