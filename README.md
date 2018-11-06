@@ -113,6 +113,18 @@ Below you find a playbook with variable to get an illustration how the role work
 *NOTE:* Please only excute this playbook in a test machine. Its not fur productiv purpose.
 
 ```yaml
+- hosts: testmachine
+  become: yes
+  tasks:
+    - name: create folders
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - /media/Share
+        - /media/Audio
+        - /media/Videos
+        - /media/ISOs
 - hosts: $VMIP
   become: yes
   roles:
@@ -127,12 +139,13 @@ Below you find a playbook with variable to get an illustration how the role work
         backups:
           - src: /etc/systemd
             target: localhost/
-        execStart: "/usr/bin/rsnapshot -c /etc/rsnapshot-home.conf"
+        execStart: "/usr/bin/rsnapshot -c /etc/rsnapshot-Backup_etc_systemd.conf %i"
+        logfile: "/var/log/rsnapshot-Backup_etc_systemd"
       - name: homes
         retains:
-          - name: 2hours
+          - name: hourly
             value: '12'
-            time: '*-*-* 00:02/2:00'
+            time: '*-*-* *:24:00'
           - name: montly
             value: '3'
             time: '1-*-* 00:00:00'
@@ -140,7 +153,8 @@ Below you find a playbook with variable to get an illustration how the role work
           - src: /home/
             target: homes/
         snapshot_root: '/backup_home'
-        execStart: "/usr/bin/rsnapshot -c /etc/rsnapshot-home.conf"
+        execStart: "/usr/bin/rsnapshot -c /etc/rsnapshot-homes.conf %i"
+        logfile: "/var/log/rsnapshot-homes"
     - wtd_rsnapshot_config_snapshot_root: /backup
     - wtd_rsnapshot_timer_time: "*-*-* 00:00:00"
 ```
@@ -151,8 +165,8 @@ systemctl list-timers | grep rsnapshot
 ls -la /etc/rsnapshot-*
 ```
 
-For each entry a separate configuration file gets created under /etc/rsnapshot.
-Additionally to this for each retains a timer will be created. And of course you can create for each retains a different time. This helps to run different retains at different times.
+For each entry a separate configuration file gets created under /etc/rsnapshot-*.
+Additionally to this for each retains a timer will be created. And of course you can create for each retains a different time. This helps to run different retains at different times. Its also possible to set a default time by set wtd_rsnapshot_timer_time, but the time of a retain will overwrite it (can be seen in the above example by "Backup_etc_systemd"
 
 
 Following variables, started with __wtd_rsnapshot_config__ get overwritten by wtd_rsnapshot_config_multi if defined:
@@ -161,6 +175,7 @@ Following variables, started with __wtd_rsnapshot_config__ get overwritten by wt
 - verbose
 - loglevel
 - lockfile
+- timer
 
 
 ## Testing
