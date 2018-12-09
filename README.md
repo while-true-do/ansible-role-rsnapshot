@@ -108,42 +108,75 @@ Simple Example:
 
 Advanced Example:
 rsnapshot is not designed to run multiple instance at the same time by using one config-file.
-Because of this its possible to set the `wtd_rsnapshot_config_multi` variable as following:
+Because of this its possible to set the `wtd_rsnapshot_config_multi_enabled` to `true` and configure multiple configurations of rsnapshot include systemd timers and services.
+Below you find a playbook with variable to get an illustration how the role works if you want to use multiple configurations.
+*NOTE:* Please only run this playbook in a test machine. Its for testing purpose.
 
 ```yaml
-- hosts: servers
+- hosts: testmachine
+  become: yes
+  tasks:
+    - name: create folders
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - /media/Share
+        - /media/Audio
+        - /media/Videos
+        - /media/ISOs
+- hosts: $VMIP
+  become: yes
   roles:
     - { role: while_true_do.rsnapshot }
   vars:
+    - wtd_rsnapshot_config_multi_enabled: true
     - wtd_rsnapshot_config_multi:
-      - name: documents-cinux
+      - name: Backup_etc_systemd
         retains:
           - name: daily
             value: '7'
-          - name: weekly
-            value: '4'
-            time: '02:15'
-        time: '02:00'
         backups:
-          - src: /home/cinux/documents
-            dest: homes/
-        snapshot_root: '/backup-documents'
-      - name: pictures-cinux
+          - src: /etc/systemd
+            target: localhost/
+        execStart: "/usr/bin/rsnapshot -c /etc/rsnapshot-Backup_etc_systemd.conf %i"
+        logfile: "/var/log/rsnapshot-Backup_etc_systemd"
+      - name: homes
         retains:
-          - name: daily
-            value: '7'
-          - name: weekly
-            value: '4'
-            time: '02:15'
-        time: '02:00'
+          - name: hourly
+            value: '12'
+            time: '*-*-* *:24:00'
+          - name: montly
+            value: '3'
+            time: '1-*-* 00:00:00'
         backups:
-          - src: /home/cinux/pictures
-            dest: homes/
-        snapshot_root: '/backup'
+          - src: /home/
+            target: homes/
+        snapshot_root: '/backup_home'
+        execStart: "/usr/bin/rsnapshot -c /etc/rsnapshot-homes.conf %i"
+        logfile: "/var/log/rsnapshot-homes"
+    - wtd_rsnapshot_config_snapshot_root: /backup
+    - wtd_rsnapshot_timer_time: "*-*-* 00:00:00"
 ```
 
-For each entry a separate configuration file gets created under /etc/rsnapshot.
-Additionally to this for each retains we create a timer which trigger the rsnapshot run if the time is arrived. And of course you can create for each retains a different time. This helps to run different retains on different times.
+After you have execute the playbook you can check with following commands:
+```
+systemctl list-timers | grep rsnapshot
+ls -la /etc/rsnapshot-*
+```
+
+For each entry a separate configuration file gets created under /etc/rsnapshot-*.
+Additionally to this for each retains a timer will be created. And of course you can create for each retains a different time. This helps to run different retains at different times. Its also possible to set a default time by set wtd_rsnapshot_timer_time, but the time of a retain will overwrite it (can be seen in the above example by "Backup_etc_systemd"
+
+
+Following variables, started with __wtd_rsnapshot_config__ get overwritten by wtd_rsnapshot_config_multi if defined:
+- config_version
+- snapshot_root
+- verbose
+- loglevel
+- lockfile
+- timer
+
 
 ## Testing
 
